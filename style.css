@@ -162,3 +162,125 @@ body{
 .bottom-nav .active{
     color:#FFD700;
 }
+/* ==========================================
+   COIN TAP ANIMATION
+   ========================================== */
+
+.coin-tap {
+    animation: coinTap 0.18s ease-out;
+}
+
+@keyframes coinTap {
+
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(0.88) rotate(-3deg);
+    }
+
+    100% {
+        transform: scale(1) rotate(0deg);
+    }
+
+}
+
+
+/* ==========================================
+   FLOATING +1
+   ========================================== */
+
+.floating-reward {
+
+    position: fixed;
+
+    z-index: 9999;
+
+    pointer-events: none;
+
+    color: #FFD700;
+
+    font-size: 26px;
+
+    font-weight: 900;
+
+    text-shadow:
+        0 0 8px rgba(255,215,0,0.8);
+
+    animation:
+        floatingReward 0.8s ease-out forwards;
+
+}
+
+
+@keyframes floatingReward {
+
+    0% {
+
+        opacity: 1;
+
+        transform:
+            translateY(0)
+            scale(1);
+
+    }
+
+    50% {
+
+        opacity: 1;
+
+        transform:
+            translateY(-45px)
+            scale(1.15);
+
+    }
+
+    100% {
+
+        opacity: 0;
+
+        transform:
+            translateY(-90px)
+            scale(0.8);
+
+    }
+
+}
+
+
+/* ==========================================
+   TAP BUTTON PRESS EFFECT
+   ========================================== */
+
+#tapButton {
+
+    transition:
+        transform 0.08s ease,
+        box-shadow 0.15s ease;
+
+}
+
+
+#tapButton:active {
+
+    transform: scale(0.96);
+
+}
+
+
+/* ==========================================
+   COIN SMOOTHNESS
+   ========================================== */
+
+#coin {
+
+    user-select: none;
+
+    -webkit-user-select: none;
+
+    -webkit-touch-callout: none;
+
+    touch-action: manipulation;
+
+}
