@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHARM Mini App</title>
+
+    <!-- Telegram Mini App -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- Header -->
+    <div class="header">
+
+        <div class="profile">
+            <img src="assets/logo.png" class="avatar">
+
+            <div>
+                <h3 id="username">Loading...</h3>
+                <p>ID : <span id="userid">000000</span></p>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Balance -->
+
+    <div class="balance-card">
+
+        <h2>Balance</h2>
+
+        <h1 id="balance">
+            0 SHARM
+        </h1>
+
+    </div>
+
+    <!-- Coin -->
+
+    <div class="coin-box">
+
+        <img src="assets/coin.png"
+        id="coin">
+
+    </div>
+
+    <!-- Energy -->
+
+    <div class="energy">
+
+        <div class="energy-top">
+
+            <span>
+                ⚡ Energy
+            </span>
+
+            <span id="energyText">
+                1500 / 1500
+            </span>
+
+        </div>
+
+        <div class="energy-bar">
+
+            <div
+            class="energy-fill"
+            id="energyFill"></div>
+
+        </div>
+
+    </div>
+
+    <!-- Tap -->
+
+    <button id="tapButton">
+
+        👆 TAP TO MINE
+
+    </button>
+
+    <!-- Daily Reward -->
+
+    <div class="menu-card">
+
+        🎁 Daily Reward
+
+    </div>
+
+    <!-- Airdrop -->
+
+    <div class="menu-card">
+
+        🚀 Airdrop Coming Soon
+
+    </div>
+
+    <!-- Social -->
+
+    <div class="social">
+
+        <a href="https://tiktok.com/@sharm_24_bot">
+            <i class="fab fa-tiktok"></i>
+        </a>
+
+        <a href="https://www.facebook.com/profile.php?id=61593454993772">
+            <i class="fab fa-facebook"></i>
+        </a>
+
+        <a href="https://www.youtube.com/@sharm_24_bot">
+            <i class="fab fa-youtube"></i>
+        </a>
+
+        <a href="https://x.com/SHARMILING">
+            <i class="fab fa-x-twitter"></i>
+        </a>
+
+    </div>
+
+</div>
+
+<!-- Bottom Navigation -->
+
+<nav class="bottom-nav">
+
+<button class="active">
+<i class="fa-solid fa-house"></i>
+<p>Home</p>
+</button>
+
+<button>
+<i class="fa-solid fa-user-group"></i>
+<p>Referral</p>
+</button>
+
+<button>
+<i class="fa-solid fa-trophy"></i>
+<p>Leaderboard</p>
+</button>
+
+<button>
+<i class="fa-solid fa-store"></i>
+<p>Shop</p>
+</button>
+
+<button>
+<i class="fa-solid fa-gear"></i>
+<p>Settings</p>
+</button>
+
+</nav>
+
+<script src="script.js"></script>
+
+</body>
+</html>
