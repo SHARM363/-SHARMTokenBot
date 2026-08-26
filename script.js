@@ -136,56 +136,28 @@ if (tapBtn) {
         if (energy <= 0) return;
 
         try {
-balance++;
-energy--;
 
-pendingTaps++;
+            balance++;
+            energy--;
+            pendingTaps++;
 
-showFloatingPlus();
+            showFloatingPlus();
 
-if (window.Telegram?.WebApp?.HapticFeedback) {
-    Telegram.WebApp.HapticFeedback.impactOccurred("light");
+            if (window.Telegram?.WebApp?.HapticFeedback) {
+                Telegram.WebApp.HapticFeedback.impactOccurred("light");
+            }
+
+            updateUI();
+
+        } catch (err) {
+
+            console.error(err);
+
+        }
+
+    });
+
 }
-
-updateUI();
-    const response = await fetch(`${API_URL}/api/tap`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            telegram_id: user.id
-        })
-    });
-
-    const data = await response.json();
-
-    if (data.success) {
-
-        balance = data.balance;
-        energy--;
-
-        showFloatingPlus();
-
-        if (window.Telegram?.WebApp?.HapticFeedback) {
-            Telegram.WebApp.HapticFeedback.impactOccurred("light");
-        }
-
-        updateUI();
-
-    }
-
-} catch (err) {
-
-    console.error(err);
-
-        }
-
-        updateUI();
-
-    });
-
-    }
 // ===============================
 // SHARM Mini App - Script Part 3
 // ===============================
@@ -273,6 +245,51 @@ async function loadAccount() {
 }
 
 loadAccount();
+
+// Fast Tap Sync
+setInterval(async () => {
+
+    if (!user) return;
+    if (pendingTaps <= 0) return;
+
+    const taps = pendingTaps;
+    pendingTaps = 0;
+
+    try {
+
+        const response = await fetch(`${API_URL}/api/tap`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                telegram_id: user.id,
+                amount: taps
+            })
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+
+            balance = data.balance;
+            updateUI();
+
+        } else {
+
+            pendingTaps += taps;
+
+        }
+
+    } catch (err) {
+
+        pendingTaps += taps;
+        console.error(err);
+
+    }
+
+}, 2000);
+
 // Placeholder Leaderboard
 const leaderboard = document.getElementById("leaderboardList");
 
