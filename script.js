@@ -1,420 +1,207 @@
-// Telegram Mini App
-const tg = window.Telegram.WebApp;
-tg.expand();
+// ===============================
+// SHARM Mini App - Script Part 1
+// ===============================
 
-// User
-const user = tg.initDataUnsafe.user;
+const tg = window.Telegram?.WebApp;
 
-if (user) {
-    document.getElementById("username").innerText =
-        user.first_name || "SHARM User";
-
-    document.getElementById("userid").innerText =
-        user.id;
+if (tg) {
+    tg.ready();
+    tg.expand();
 }
 
-// Game Data
-let balance =
-    Number(localStorage.getItem("balance")) || 0;
+// API URL
+const API_URL = "https://sharm-backend-5547.onrender.com";
 
-let energy =
-    Number(localStorage.getItem("energy")) || 1500;
+// Navigation
+const pages = document.querySelectorAll(".page");
+const navButtons = document.querySelectorAll(".nav-btn");
 
-const MAX_ENERGY = 1500;
+function showPage(pageId) {
+    pages.forEach(page => page.classList.remove("active"));
 
-// Elements
-const balanceEl =
-    document.getElementById("balance");
+    const selectedPage = document.getElementById(pageId);
 
-const energyText =
-    document.getElementById("energyText");
+    if (selectedPage) {
+        selectedPage.classList.add("active");
+    }
 
-const energyFill =
-    document.getElementById("energyFill");
+    navButtons.forEach(btn => btn.classList.remove("active"));
 
-const coin =
-    document.getElementById("coin");
-
-const tapButton =
-    document.getElementById("tapButton");
-
-// Update UI
-function updateUI() {
-
-    balanceEl.innerHTML =
-        balance + " SHARM";
-
-    energyText.innerHTML =
-        energy + " / " + MAX_ENERGY;
-
-    energyFill.style.width =
-        (energy / MAX_ENERGY * 100) + "%";
-
-    localStorage.setItem(
-        "balance",
-        balance
+    const activeButton = document.querySelector(
+        `[data-page="${pageId}"]`
     );
 
-    localStorage.setItem(
-        "energy",
-        energy
-    );
-
+    if (activeButton) {
+        activeButton.classList.add("active");
+    }
 }
 
-updateUI();
+navButtons.forEach(btn => {
 
-// Tap
-tapButton.addEventListener(
-    "click",
-    function () {
+    btn.addEventListener("click", () => {
 
-        if (energy <= 0)
-            return;
+        const page = btn.dataset.page;
 
-        balance += 1;
+        showPage(page);
 
-        energy -= 1;
+    });
 
-        coin.style.transform =
-            "scale(.9)";
+});
 
-        setTimeout(function () {
-
-            coin.style.transform =
-                "scale(1)";
-
-        },100);
-
-        updateUI();
-
-    }
-);
-
-// Auto Recharge
-setInterval(function(){
-
-    if(
-        energy < MAX_ENERGY
-    ){
-
-        energy++;
-
-        updateUI();
-
-    }
-
-},1000);
-// ==========================================
-// SHARM MINI APP
-// Coin Animation + Floating +1 + Haptic
-// ==========================================
-
-// Telegram Mini App
-const tg = window.Telegram.WebApp;
-
-tg.ready();
-tg.expand();
-
-
-// ==========================================
-// TELEGRAM USER
-// ==========================================
-
-const user = tg.initDataUnsafe?.user;
+// Telegram User
+const user = tg?.initDataUnsafe?.user;
 
 if (user) {
 
-    document.getElementById("username").textContent =
-        user.first_name || "SHARM User";
+    const username = document.getElementById("username");
+    const userid = document.getElementById("userid");
 
-    document.getElementById("userid").textContent =
-        user.id;
+    if (username) {
+        username.innerText =
+            user.first_name || "User";
+    }
 
-}
-
-
-// ==========================================
-// GAME DATA
-// ==========================================
-
-let balance =
-    Number(localStorage.getItem("balance")) || 0;
-
-let energy =
-    Number(localStorage.getItem("energy")) || 1500;
-
-const MAX_ENERGY = 1500;
-const TAP_REWARD = 1;
-
-
-// ==========================================
-// ELEMENTS
-// ==========================================
-
-const balanceEl =
-    document.getElementById("balance");
-
-const energyText =
-    document.getElementById("energyText");
-
-const energyFill =
-    document.getElementById("energyFill");
-
-const coin =
-    document.getElementById("coin");
-
-const tapButton =
-    document.getElementById("tapButton");
-
-
-// ==========================================
-// UPDATE UI
-// ==========================================
-
-function updateUI() {
-
-    balanceEl.textContent =
-        balance + " SHARM";
-
-    energyText.textContent =
-        energy + " / " + MAX_ENERGY;
-
-    const percentage =
-        (energy / MAX_ENERGY) * 100;
-
-    energyFill.style.width =
-        percentage + "%";
-
-
-    // Save locally
-    localStorage.setItem(
-        "balance",
-        balance
-    );
-
-    localStorage.setItem(
-        "energy",
-        energy
-    );
-
-
-    // Disable button when energy is empty
-    if (energy <= 0) {
-
-        tapButton.disabled = true;
-        tapButton.style.opacity = "0.5";
-
-    } else {
-
-        tapButton.disabled = false;
-        tapButton.style.opacity = "1";
-
+    if (userid) {
+        userid.innerText = user.id;
     }
 
 }
+// ===============================
+// SHARM Mini App - Script Part 2
+// ===============================
 
+let balance = 0;
+let energy = 1500;
+const maxEnergy = 1500;
 
-// ==========================================
-// COIN BOUNCE ANIMATION
-// ==========================================
+const balanceEl = document.getElementById("balance");
+const energyText = document.getElementById("energyText");
+const energyFill = document.getElementById("energyFill");
+const tapBtn = document.getElementById("tapBtn");
 
-function animateCoin() {
+function updateUI() {
+    if (balanceEl) balanceEl.textContent = balance;
 
-    coin.classList.remove("coin-tap");
+    if (energyText) {
+        energyText.textContent = `${energy} / ${maxEnergy}`;
+    }
 
-    // Force browser to restart animation
-    void coin.offsetWidth;
-
-    coin.classList.add("coin-tap");
-
+    if (energyFill) {
+        energyFill.style.width =
+            `${(energy / maxEnergy) * 100}%`;
+    }
 }
 
+function showFloatingPlus() {
 
-// ==========================================
-// FLOATING +1
-// ==========================================
+    const plus = document.createElement("div");
 
-function createFloatingNumber() {
+    plus.className = "floating-plus";
+    plus.innerText = "+1";
 
-    const floating =
-        document.createElement("div");
+    const rect = tapBtn.getBoundingClientRect();
 
-    floating.className =
-        "floating-reward";
+    plus.style.left =
+        (rect.left + rect.width / 2) + "px";
 
-    floating.textContent =
-        "+" + TAP_REWARD;
+    plus.style.top =
+        rect.top + "px";
 
+    document.body.appendChild(plus);
 
-    // Position around the coin
-    const rect =
-        coin.getBoundingClientRect();
-
-    const randomX =
-        (Math.random() * 80) - 40;
-
-    floating.style.left =
-        (rect.left + rect.width / 2 + randomX)
-        + "px";
-
-    floating.style.top =
-        (rect.top + 20)
-        + "px";
-
-
-    document.body.appendChild(
-        floating
-    );
-
-
-    // Remove after animation
-    setTimeout(function () {
-
-        floating.remove();
-
+    setTimeout(() => {
+        plus.remove();
     }, 800);
 
 }
 
+if (tapBtn) {
 
-// ==========================================
-// HAPTIC FEEDBACK
-// ==========================================
+    tapBtn.addEventListener("click", () => {
 
-function hapticFeedback() {
+        if (energy <= 0) return;
+
+        balance++;
+        energy--;
+
+        showFloatingPlus();
+
+        if (window.Telegram?.WebApp?.HapticFeedback) {
+            Telegram.WebApp.HapticFeedback
+                .impactOccurred("light");
+        }
+
+        updateUI();
+
+    });
+
+    }
+// ===============================
+// SHARM Mini App - Script Part 3
+// ===============================
+
+// Referral Link
+const referralInput = document.getElementById("referralLink");
+const copyReferralBtn = document.getElementById("copyReferralBtn");
+
+if (user && referralInput) {
+    referralInput.value =
+        `https://t.me/SHARM363_bot?start=${user.id}`;
+}
+
+if (copyReferralBtn) {
+    copyReferralBtn.addEventListener("click", () => {
+
+        referralInput.select();
+        document.execCommand("copy");
+
+        tg?.showAlert("Referral link copied!");
+
+    });
+}
+
+// Backend Connection
+async function syncAccount() {
+
+    if (!user) return;
 
     try {
 
-        if (
-            tg.HapticFeedback &&
-            tg.HapticFeedback.impactOccurred
-        ) {
+        const response = await fetch(`${API_URL}/api/auth`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                telegram_id: user.id,
+                username: user.username || "",
+                first_name: user.first_name || ""
+            })
+        });
 
-            tg.HapticFeedback.impactOccurred(
-                "light"
-            );
+        const data = await response.json();
 
-        }
+        console.log("Backend:", data);
 
-    } catch (error) {
+    } catch (err) {
 
-        console.log(
-            "Haptic feedback unavailable"
-        );
+        console.error(err);
 
     }
 
 }
 
+syncAccount();
 
-// ==========================================
-// TAP FUNCTION
-// ==========================================
+// Placeholder Leaderboard
+const leaderboard = document.getElementById("leaderboardList");
 
-function performTap() {
+if (leaderboard) {
 
-    if (energy <= 0) {
-        return;
-    }
-
-
-    // Add SHARM
-    balance += TAP_REWARD;
-
-
-    // Reduce Energy
-    energy -= 1;
-
-
-    // UI
-    updateUI();
-
-
-    // Animations
-    animateCoin();
-
-    createFloatingNumber();
-
-
-    // Vibration
-    hapticFeedback();
+    leaderboard.innerHTML = `
+        <p>🥇 Player 1 - 5000 SHARM</p>
+        <p>🥈 Player 2 - 4500 SHARM</p>
+        <p>🥉 Player 3 - 4200 SHARM</p>
+    `;
 
 }
-
-
-// ==========================================
-// BUTTON TAP
-// ==========================================
-
-tapButton.addEventListener(
-    "click",
-    performTap
-);
-
-
-// ==========================================
-// MULTI-TOUCH
-// ==========================================
-
-coin.addEventListener(
-    "touchstart",
-    function(event) {
-
-        event.preventDefault();
-
-        const touches =
-            event.changedTouches.length;
-
-        for (
-            let i = 0;
-            i < touches;
-            i++
-        ) {
-
-            performTap();
-
-        }
-
-    },
-    { passive: false }
-);
-
-
-// ==========================================
-// COIN CLICK
-// ==========================================
-
-coin.addEventListener(
-    "click",
-    performTap
-);
-
-
-// ==========================================
-// AUTO ENERGY RECHARGE
-// ==========================================
-
-setInterval(
-    function() {
-
-        if (
-            energy < MAX_ENERGY
-        ) {
-
-            energy += 1;
-
-            updateUI();
-
-        }
-
-    },
-    1000
-);
-
-
-// ==========================================
-// START
-// ==========================================
-
-updateUI();
