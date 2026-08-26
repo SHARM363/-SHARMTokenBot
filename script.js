@@ -136,7 +136,18 @@ if (tapBtn) {
         if (energy <= 0) return;
 
         try {
+balance++;
+energy--;
 
+pendingTaps++;
+
+showFloatingPlus();
+
+if (window.Telegram?.WebApp?.HapticFeedback) {
+    Telegram.WebApp.HapticFeedback.impactOccurred("light");
+}
+
+updateUI();
     const response = await fetch(`${API_URL}/api/tap`, {
         method: "POST",
         headers: {
