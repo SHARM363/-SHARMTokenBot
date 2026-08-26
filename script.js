@@ -232,20 +232,27 @@ async function loadAccount() {
 
         const data = await response.json();
 
-        if (data.success) {
-            balance = data.user.balance;
-            energy = data.user.energy;
+        if (data.success && data.user) {
+
+            balance = Number(data.user.balance) || 0;
+            energy = Number(data.user.energy) || 0;
+
             updateUI();
+
         }
 
     } catch (err) {
-        console.error(err);
+
+        console.error("Load account error:", err);
+
     }
 
 }
 
-loadAccount();
-
+// Load account immediately when Mini App opens
+if (user) {
+    loadAccount();
+}
 // Fast Tap Sync
 setInterval(async () => {
 
