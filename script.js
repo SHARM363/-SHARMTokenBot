@@ -165,23 +165,70 @@ if (tapBtn) {
 // Referral Link
 const referralInput = document.getElementById("referralLink");
 const copyReferralBtn = document.getElementById("copyReferralBtn");
+const shareReferralBtn = document.getElementById("shareReferralBtn");
 
 if (user && referralInput) {
-    referralInput.value =
+
+    const referralLink =
         `https://t.me/SHARM363_bot?start=${user.id}`;
+
+    referralInput.value = referralLink;
+
 }
 
+// Copy Referral Link
 if (copyReferralBtn) {
-    copyReferralBtn.addEventListener("click", () => {
 
-        referralInput.select();
-        document.execCommand("copy");
+    copyReferralBtn.addEventListener("click", async () => {
 
-        tg?.showAlert("Referral link copied!");
+        if (!referralInput) return;
+
+        try {
+
+            await navigator.clipboard.writeText(
+                referralInput.value
+            );
+
+            tg?.showAlert("Referral link copied!");
+
+        } catch (err) {
+
+            referralInput.select();
+            document.execCommand("copy");
+
+            tg?.showAlert("Referral link copied!");
+
+        }
 
     });
+
 }
 
+// Share Referral Link
+if (shareReferralBtn) {
+
+    shareReferralBtn.addEventListener("click", () => {
+
+        if (!referralInput) return;
+
+        const referralLink = referralInput.value;
+
+        const shareUrl =
+            `https://t.me/share/url?url=${encodeURIComponent(referralLink)}&text=${encodeURIComponent("Join SHARM and start mining! 🚀")}`;
+
+        if (tg?.openTelegramLink) {
+
+            tg.openTelegramLink(shareUrl);
+
+        } else {
+
+            window.open(shareUrl, "_blank");
+
+        }
+
+    });
+
+}
 // Backend Connection
 async function syncAccount() {
 
