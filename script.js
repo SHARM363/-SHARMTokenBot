@@ -74,6 +74,9 @@ let balance = 0;
 let energy = 1500;
 const maxEnergy = 1500;
 
+let pendingTaps = 0;
+let syncTimer = null;
+
 const balanceEl = document.getElementById("balance");
 const energyText = document.getElementById("energyText");
 const energyFill = document.getElementById("energyFill");
@@ -91,7 +94,18 @@ function updateUI() {
             `${(energy / maxEnergy) * 100}%`;
     }
 }
+// Auto Energy Recharge
+setInterval(() => {
 
+    if (energy < maxEnergy) {
+
+        energy++;
+
+        updateUI();
+
+    }
+
+}, 3000);
 function showFloatingPlus() {
 
     const plus = document.createElement("div");
