@@ -117,7 +117,7 @@ function showFloatingPlus() {
 
 if (tapBtn) {
 
-    tapBtn.addEventListener("click", () => {
+    tapBtn.addEventListener("click", async () => {
 
         if (energy <= 0) return;
 
@@ -248,7 +248,7 @@ async function loadAccount() {
 }
 
 loadAccount();
-/ Placeholder Leaderboard
+// Placeholder Leaderboard
 const leaderboard = document.getElementById("leaderboardList");
 
 if (leaderboard) {
