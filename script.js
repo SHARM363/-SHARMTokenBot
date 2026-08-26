@@ -194,38 +194,7 @@ async function syncAccount() {
 
 syncAccount();
 
-async function loadAccount() {
-
-    if (!user) return;
-
-    try {
-
-        const response = await fetch(`${API_URL}/api/me`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                telegram_id: user.id
-            })
-        });
-
-        const data = await response.json();
-
-        if (data.success) {
-            balance = data.user.balance;
-            energy = data.user.energy;
-            updateUI();
-        }
-
-    } catch (err) {
-        console.error(err);
-    }
-
-}
-
-loadAccount();
-// Placeholder Leaderboard
+/ Placeholder Leaderboard
 const leaderboard = document.getElementById("leaderboardList");
 
 if (leaderboard) {
