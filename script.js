@@ -121,39 +121,15 @@ if (tapBtn) {
 
         if (energy <= 0) return;
 
-        try {
+        balance++;
+energy--;
 
-    const response = await fetch(`${API_URL}/api/tap`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            telegram_id: user.id
-        })
-    });
+showFloatingPlus();
 
-    const data = await response.json();
-
-    if (data.success) {
-
-        balance = data.balance;
-        energy--;
-
-        showFloatingPlus();
-
-        if (window.Telegram?.WebApp?.HapticFeedback) {
-            Telegram.WebApp.HapticFeedback.impactOccurred("light");
-        }
-
-        updateUI();
-
-    }
-
-} catch (err) {
-
-    console.error(err);
-
+if (window.Telegram?.WebApp?.HapticFeedback) {
+Telegram.WebApp.HapticFeedback
+.impactOccurred("light");
+}
         }
 
         updateUI();
