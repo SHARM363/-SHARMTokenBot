@@ -2,92 +2,88 @@
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:Arial,sans-serif;
+    font-family:Arial,Helvetica,sans-serif;
 }
 
 body{
-    background:#0f1115;
+    background:#0f172a;
     color:#fff;
-    min-height:100vh;
+    overflow-x:hidden;
 }
 
-.container{
-    max-width:420px;
+.app{
+    width:100%;
+    max-width:480px;
     margin:auto;
-    padding:20px;
-    padding-bottom:100px;
+    min-height:100vh;
+    padding:15px 15px 90px;
 }
 
-.header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:20px;
+.page{
+    display:none;
 }
 
-.profile{
-    display:flex;
-    align-items:center;
-    gap:12px;
+.page.active{
+    display:block;
 }
 
-.avatar{
-    width:55px;
-    height:55px;
-    border-radius:50%;
-    border:2px solid #FFD700;
-}
-
-.profile h3{
-    font-size:18px;
-}
-
-.profile p{
-    color:#aaa;
-    font-size:13px;
-}
-
-.balance-card{
-    background:#1b1f27;
-    border-radius:18px;
-    padding:20px;
+.card,
+.profile-card,
+.coin-card,
+.airdrop-card{
+    background:#1e293b;
+    border-radius:20px;
+    padding:18px;
+    margin-bottom:16px;
     text-align:center;
-    margin-bottom:20px;
-    border:1px solid rgba(255,215,0,.2);
+    box-shadow:0 4px 12px rgba(0,0,0,.25);
 }
 
-.balance-card h1{
-    color:#FFD700;
-    margin-top:8px;
-    font-size:32px;
+.profile-card h2{
+    font-size:22px;
+    margin-bottom:8px;
 }
 
-.coin-box{
-    display:flex;
-    justify-content:center;
-    margin:30px 0;
+.profile-card p{
+    color:#cbd5e1;
+    font-size:14px;
 }
 
-#coin{
-    width:180px;
-    cursor:pointer;
+.coin{
+    width:150px;
+    height:150px;
+    object-fit:contain;
+    margin:10px auto 15px;
+    display:block;
     transition:.15s;
 }
 
-#coin:active{
-    transform:scale(.92);
+.coin:active{
+    transform:scale(.95);
 }
 
-.energy-top{
+.balance{
+    font-size:32px;
+    font-weight:bold;
+    color:#FFD700;
+    margin:18px 0;
+}
+.energy-box{
+    margin:20px 0;
+}
+
+.energy-info{
     display:flex;
     justify-content:space-between;
+    font-size:14px;
     margin-bottom:8px;
+    color:#cbd5e1;
 }
 
 .energy-bar{
     width:100%;
     height:12px;
-    background:#2b2f38;
+    background:#334155;
     border-radius:20px;
     overflow:hidden;
 }
@@ -95,192 +91,151 @@ body{
 .energy-fill{
     width:100%;
     height:100%;
-    background:#FFD700;
-    border-radius:20px;
+    background:linear-gradient(90deg,#22c55e,#16a34a);
+    transition:width .3s;
 }
 
-#tapButton{
-    width:100%;
-    margin-top:20px;
-    padding:16px;
+.tap-btn{
+    width:180px;
+    height:180px;
     border:none;
-    border-radius:14px;
-    background:#FFD700;
-    color:#000;
-    font-size:18px;
+    border-radius:50%;
+    background:linear-gradient(180deg,#FFD700,#F4B400);
+    color:#111827;
+    font-size:22px;
     font-weight:bold;
     cursor:pointer;
+    margin:20px auto;
+    display:block;
+    transition:.15s;
+    box-shadow:0 0 25px rgba(255,215,0,.35);
 }
 
-.menu-card{
-    background:#1b1f27;
-    padding:16px;
-    border-radius:14px;
-    margin-top:15px;
-    text-align:center;
+.tap-btn:active{
+    transform:scale(.95);
 }
 
-.social{
-    display:flex;
-    justify-content:space-around;
-    margin-top:25px;
-}
-
-.social a{
+.airdrop-card{
+    font-size:18px;
+    font-weight:bold;
     color:#FFD700;
-    font-size:28px;
-    text-decoration:none;
 }
 
+.stats{
+    margin-top:20px;
+    text-align:left;
+}
+
+.stats p{
+    margin:10px 0;
+    color:#e2e8f0;
+}
+
+.shop-item{
+    background:#334155;
+    padding:15px;
+    border-radius:15px;
+    margin-top:15px;
+}
+
+.shop-item h3{
+    margin-bottom:8px;
+}
+
+.shop-item button{
+    margin-top:10px;
+    padding:10px 20px;
+    border:none;
+    border-radius:10px;
+    background:#22c55e;
+    color:white;
+    cursor:pointer;
+}
 .bottom-nav{
     position:fixed;
     bottom:0;
-    left:0;
-    right:0;
-    height:70px;
-    background:#161a20;
+    left:50%;
+    transform:translateX(-50%);
+    width:100%;
+    max-width:480px;
+    background:#1e293b;
     display:flex;
     justify-content:space-around;
     align-items:center;
-    border-top:1px solid #333;
+    padding:12px 0;
+    border-top:1px solid #334155;
+    box-shadow:0 -4px 15px rgba(0,0,0,.3);
 }
 
-.bottom-nav button{
+.nav-btn{
     background:none;
     border:none;
-    color:#888;
-    font-size:12px;
+    color:#94a3b8;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
     cursor:pointer;
+    font-size:13px;
 }
 
-.bottom-nav i{
-    font-size:20px;
-    display:block;
-    margin-bottom:4px;
+.nav-btn span{
+    margin-top:4px;
 }
 
-.bottom-nav .active{
+.nav-btn.active{
     color:#FFD700;
 }
-/* ==========================================
-   COIN TAP ANIMATION
-   ========================================== */
 
-.coin-tap {
-    animation: coinTap 0.18s ease-out;
+#settingsPage a{
+    display:block;
+    text-decoration:none;
+    color:#fff;
+    background:#334155;
+    margin:10px 0;
+    padding:12px;
+    border-radius:12px;
+    transition:.2s;
 }
 
-@keyframes coinTap {
+#settingsPage a:hover{
+    background:#475569;
+}
 
-    0% {
-        transform: scale(1);
+.floating-plus{
+    position:fixed;
+    color:#FFD700;
+    font-size:24px;
+    font-weight:bold;
+    pointer-events:none;
+    animation:floatUp .8s ease-out forwards;
+}
+
+@keyframes floatUp{
+    from{
+        opacity:1;
+        transform:translateY(0);
+    }
+    to{
+        opacity:0;
+        transform:translateY(-60px);
+    }
+}
+
+@media(max-width:480px){
+
+    .coin{
+        width:130px;
+        height:130px;
     }
 
-    50% {
-        transform: scale(0.88) rotate(-3deg);
+    .tap-btn{
+        width:160px;
+        height:160px;
+        font-size:20px;
     }
 
-    100% {
-        transform: scale(1) rotate(0deg);
+    .balance{
+        font-size:28px;
     }
 
-}
-
-
-/* ==========================================
-   FLOATING +1
-   ========================================== */
-
-.floating-reward {
-
-    position: fixed;
-
-    z-index: 9999;
-
-    pointer-events: none;
-
-    color: #FFD700;
-
-    font-size: 26px;
-
-    font-weight: 900;
-
-    text-shadow:
-        0 0 8px rgba(255,215,0,0.8);
-
-    animation:
-        floatingReward 0.8s ease-out forwards;
-
-}
-
-
-@keyframes floatingReward {
-
-    0% {
-
-        opacity: 1;
-
-        transform:
-            translateY(0)
-            scale(1);
-
-    }
-
-    50% {
-
-        opacity: 1;
-
-        transform:
-            translateY(-45px)
-            scale(1.15);
-
-    }
-
-    100% {
-
-        opacity: 0;
-
-        transform:
-            translateY(-90px)
-            scale(0.8);
-
-    }
-
-}
-
-
-/* ==========================================
-   TAP BUTTON PRESS EFFECT
-   ========================================== */
-
-#tapButton {
-
-    transition:
-        transform 0.08s ease,
-        box-shadow 0.15s ease;
-
-}
-
-
-#tapButton:active {
-
-    transform: scale(0.96);
-
-}
-
-
-/* ==========================================
-   COIN SMOOTHNESS
-   ========================================== */
-
-#coin {
-
-    user-select: none;
-
-    -webkit-user-select: none;
-
-    -webkit-touch-callout: none;
-
-    touch-action: manipulation;
-
-}
+    .profile
