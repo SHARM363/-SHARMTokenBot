@@ -236,6 +236,15 @@ async function syncAccount() {
 
     try {
 
+        // Get referral ID from Telegram start parameter
+        const startParam =
+            tg?.initDataUnsafe?.start_param || "";
+
+        const referrerId =
+            startParam.startsWith("ref_")
+                ? startParam.replace("ref_", "")
+                : startParam;
+
         const response = await fetch(`${API_URL}/api/auth`, {
             method: "POST",
             headers: {
@@ -244,7 +253,8 @@ async function syncAccount() {
             body: JSON.stringify({
                 telegram_id: user.id,
                 username: user.username || "",
-                first_name: user.first_name || ""
+                first_name: user.first_name || "",
+                referrer_id: referrerId || null
             })
         });
 
@@ -254,7 +264,7 @@ async function syncAccount() {
 
     } catch (err) {
 
-        console.error(err);
+        console.error("Auth error:", err);
 
     }
 
