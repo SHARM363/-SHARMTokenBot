@@ -170,7 +170,7 @@ const shareReferralBtn = document.getElementById("shareReferralBtn");
 if (user && referralInput) {
 
     const referralLink =
-        `https://t.me/SHARM363_bot?start=${user.id}`;
+        `https://t.me/SHARMTokenBot?start=ref_${user.id}`;
 
     referralInput.value = referralLink;
 
