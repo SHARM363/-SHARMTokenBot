@@ -7,6 +7,11 @@ const tg = window.Telegram?.WebApp;
 if (tg) {
     tg.ready();
     tg.expand();
+
+    // Telegram Mini App startapp / referral parameter
+    const startParam = tg.initDataUnsafe?.start_param || null;
+
+    console.log("SHARM start_param:", startParam);
 }
 
 // API URL
