@@ -244,7 +244,10 @@ async function syncAccount() {
             startParam.startsWith("ref_")
                 ? startParam.replace("ref_", "")
                 : startParam;
-
+        
+       console.log("Start Param:", startParam);
+       console.log("Referrer ID:", referrerId);
+        
         const response = await fetch(`${API_URL}/api/auth`, {
             method: "POST",
             headers: {
