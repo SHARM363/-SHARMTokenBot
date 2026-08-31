@@ -318,6 +318,9 @@ async function loadAccount() {
 if (user) {
     loadAccount();
 }
+// Load leaderboard
+loadLeaderboard();
+
 // Fast Tap Sync
 setInterval(async () => {
 
@@ -362,15 +365,82 @@ setInterval(async () => {
 
 }, 2000);
 
-// Placeholder Leaderboard
-const leaderboard = document.getElementById("leaderboardList");
+// REAL LEADERBOARD
 
-if (leaderboard) {
+async function loadLeaderboard() {
 
-    leaderboard.innerHTML = `
-        <p>🥇 Player 1 - 5000 SHARM</p>
-        <p>🥈 Player 2 - 4500 SHARM</p>
-        <p>🥉 Player 3 - 4200 SHARM</p>
-    `;
+    const leaderboard = document.getElementById("leaderboardList");
 
+    if (!leaderboard) return;
+
+    try {
+
+        leaderboard.innerHTML = `
+            <p>⏳ Loading leaderboard...</p>
+        `;
+
+        const response = await fetch(`${API_URL}/api/leaderboard`, {
+            method: "GET"
+        });
+
+        const data = await response.json();
+
+        if (!data.success || !data.leaderboard) {
+
+            leaderboard.innerHTML = `
+                <p>❌ Failed to load leaderboard</p>
+            `;
+
+            return;
+        }
+
+        if (data.leaderboard.length === 0) {
+
+            leaderboard.innerHTML = `
+                <p>🏆 No players yet</p>
+            `;
+
+            return;
+        }
+
+        leaderboard.innerHTML = data.leaderboard.map((user, index) => {
+
+            const rank = index + 1;
+
+            let medal;
+
+            if (rank === 1) {
+                medal = "🥇";
+            } else if (rank === 2) {
+                medal = "🥈";
+            } else if (rank === 3) {
+                medal = "🥉";
+            } else {
+                medal = `#${rank}`;
+            }
+
+            const name = user.username
+                ? `@${user.username}`
+                : (user.first_name || "Player");
+
+            const balance = Number(user.balance || 0).toLocaleString();
+
+            return `
+                <div class="leaderboard-row">
+                    <span>${medal}</span>
+                    <span>${name}</span>
+                    <span>${balance} SHARM</span>
+                </div>
+            `;
+
+        }).join("");
+
+    } catch (error) {
+
+        console.error("Leaderboard error:", error);
+
+        leaderboard.innerHTML = `
+            <p>⚠️ Unable to load leaderboard</p>
+        `;
+    }
 }
