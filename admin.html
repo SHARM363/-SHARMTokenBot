@@ -52,11 +52,117 @@ h1{
     <h2>🆕 Today's Users</h2>
     <div class="value" id="todayUsers">0</div>
 </div>
+<div class="card">
 
+    <h2>⚙️ App Settings</h2>
+
+    <label>Referral Bonus</label><br>
+    <input id="referral_bonus"><br><br>
+
+    <label>Daily Reward</label><br>
+    <input id="daily_reward"><br><br>
+
+    <label>YouTube Link</label><br>
+    <input id="youtube_link"><br><br>
+
+    <label>YouTube Reward</label><br>
+    <input id="youtube_reward"><br><br>
+
+    <label>Facebook Link</label><br>
+    <input id="facebook_link"><br><br>
+
+    <label>Facebook Reward</label><br>
+    <input id="facebook_reward"><br><br>
+
+    <label>Telegram Link</label><br>
+    <input id="telegram_link"><br><br>
+
+    <label>Telegram Reward</label><br>
+    <input id="telegram_reward"><br><br>
+
+    <label>TikTok Link</label><br>
+    <input id="tiktok_link"><br><br>
+
+    <label>TikTok Reward</label><br>
+    <input id="tiktok_reward"><br><br>
+
+    <label>X (Twitter) Link</label><br>
+    <input id="x_link"><br><br>
+
+    <label>X Reward</label><br>
+    <input id="x_reward"><br><br>
+
+    <label>Airdrop Status</label><br>
+    <select id="airdrop_status">
+        <option value="coming_soon">Coming Soon</option>
+        <option value="live">Live</option>
+        <option value="ended">Ended</option>
+    </select><br><br>
+
+    <button onclick="saveSettings()">
+        💾 Save Settings
+    </button>
+
+</div>
 <script>
 
 const API_URL="https://sharm-backend-5547.onrender.com";
 
+async function loadSettings() {
+
+    const res = await fetch(`${API_URL}/api/admin/settings`);
+    const data = await res.json();
+
+    if (!data.success) return;
+
+    const s = data.settings;
+
+    for (const key in s) {
+        const el = document.getElementById(key);
+        if (el) {
+            el.value = s[key];
+        }
+    }
+}
+
+async function saveSettings() {
+
+    const keys = [
+        "referral_bonus",
+        "daily_reward",
+        "youtube_link",
+        "youtube_reward",
+        "facebook_link",
+        "facebook_reward",
+        "telegram_link",
+        "telegram_reward",
+        "tiktok_link",
+        "tiktok_reward",
+        "x_link",
+        "x_reward",
+        "airdrop_status"
+    ];
+
+    for (const key of keys) {
+
+        await fetch(`${API_URL}/api/admin/settings`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                setting_key: key,
+                setting_value: document.getElementById(key).value
+            })
+        });
+
+    }
+
+    alert("✅ Settings Saved Successfully");
+
+}
+
+loadSettings();
 async function loadStats(){
 
     try{
