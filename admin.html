@@ -104,9 +104,33 @@ h1{
     </button>
 
 </div>
+    <div class="card">
+
+    <h2>👥 Users</h2>
+
+    <table id="usersTable" border="1" width="100%">
+        <thead>
+            <tr>
+                <th>Telegram ID</th>
+                <th>Username</th>
+                <th>Name</th>
+                <th>Balance</th>
+                <th>Energy</th>
+            </tr>
+        </thead>
+
+        <tbody id="usersTableBody">
+            <!-- Users will appear here -->
+        </tbody>
+
+    </table>
+
+</div>
+
 <script>
 
-const API_URL="https://sharm-backend-5547.onrender.com";
+const API_URL = "https://sharm-backend-5547.onrender.com";
+
 
 async function loadSettings() {
 
@@ -118,12 +142,16 @@ async function loadSettings() {
     const s = data.settings;
 
     for (const key in s) {
+
         const el = document.getElementById(key);
+
         if (el) {
             el.value = s[key];
         }
+
     }
 }
+
 
 async function saveSettings() {
 
@@ -146,14 +174,19 @@ async function saveSettings() {
     for (const key of keys) {
 
         await fetch(`${API_URL}/api/admin/settings`, {
+
             method: "POST",
+
             headers: {
                 "Content-Type": "application/json"
             },
+
             body: JSON.stringify({
                 setting_key: key,
-                setting_value: document.getElementById(key).value
+                setting_value:
+                    document.getElementById(key).value
             })
+
         });
 
     }
@@ -162,33 +195,93 @@ async function saveSettings() {
 
 }
 
-async function loadStats(){
 
-    try{
+async function loadStats() {
 
-        const res=await fetch(`${API_URL}/api/admin/stats`);
+    try {
 
-        const data=await res.json();
+        const res =
+            await fetch(`${API_URL}/api/admin/stats`);
 
-        if(data.success){
+        const data = await res.json();
 
-            document.getElementById("totalUsers").innerText=data.total_users;
+        if (data.success) {
 
-            document.getElementById("totalBalance").innerText=data.total_balance;
+            document.getElementById("totalUsers").innerText =
+                data.total_users;
 
-            document.getElementById("todayUsers").innerText=data.today_users;
+            document.getElementById("totalBalance").innerText =
+                data.total_balance;
+
+            document.getElementById("todayUsers").innerText =
+                data.today_users;
 
         }
 
-    }catch(err){
+    } catch (err) {
 
         console.log(err);
 
     }
 
 }
+
+
+/* =========================
+   LOAD USERS
+========================= */
+
+async function loadUsers() {
+
+    try {
+
+        const res =
+            await fetch(`${API_URL}/api/admin/users`);
+
+        const data = await res.json();
+
+        if (!data.success) {
+            console.log("Users API error:", data);
+            return;
+        }
+
+        const tbody =
+            document.getElementById("usersTableBody");
+
+        tbody.innerHTML = "";
+
+        data.users.forEach(user => {
+
+            const row = document.createElement("tr");
+
+            row.innerHTML = `
+                <td>${user.telegram_id ?? ""}</td>
+                <td>${user.username ?? ""}</td>
+                <td>${user.first_name ?? ""}</td>
+                <td>${user.balance ?? 0}</td>
+                <td>${user.energy ?? 0}</td>
+            `;
+
+            tbody.appendChild(row);
+
+        });
+
+    } catch (err) {
+
+        console.error("Users loading error:", err);
+
+    }
+
+}
+
+
+/* =========================
+   START
+========================= */
+
 loadSettings();
 loadStats();
+loadUsers();
 
 </script>
 
