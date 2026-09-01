@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SHARM Admin Panel</title>
+
+<style>
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#111827;
+    color:white;
+    padding:20px;
+}
+
+h1{
+    text-align:center;
+}
+
+.card{
+    background:#1f2937;
+    border-radius:12px;
+    padding:20px;
+    margin-bottom:15px;
+    text-align:center;
+}
+
+.value{
+    font-size:32px;
+    font-weight:bold;
+    margin-top:10px;
+}
+</style>
+
+</head>
+<body>
+
+<h1>🛠 SHARM Admin Panel</h1>
+
+<div class="card">
+    <h2>👥 Total Users</h2>
+    <div class="value" id="totalUsers">0</div>
+</div>
+
+<div class="card">
+    <h2>💰 Total Balance</h2>
+    <div class="value" id="totalBalance">0</div>
+</div>
+
+<div class="card">
+    <h2>🆕 Today's Users</h2>
+    <div class="value" id="todayUsers">0</div>
+</div>
+
+<script>
+
+const API_URL="https://sharm-backend-5547.onrender.com";
+
+async function loadStats(){
+
+    try{
+
+        const res=await fetch(`${API_URL}/api/admin/stats`);
+
+        const data=await res.json();
+
+        if(data.success){
+
+            document.getElementById("totalUsers").innerText=data.total_users;
+
+            document.getElementById("totalBalance").innerText=data.total_balance;
+
+            document.getElementById("todayUsers").innerText=data.today_users;
+
+        }
+
+    }catch(err){
+
+        console.log(err);
+
+    }
+
+}
+
+loadStats();
+
+</script>
+
+</body>
+</html>
